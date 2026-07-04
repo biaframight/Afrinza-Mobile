@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-import 'core/theme/app_theme.dart';
+import 'features/home/home_screen.dart';
+import 'features/welcome/welcome_screen.dart';
 import 'features/splash/splash_screen.dart';
 
 Future<void> main() async {
@@ -26,8 +27,31 @@ class AfrinzaApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Afrinza',
-      theme: AppTheme.lightTheme,
-      home: const SplashScreen(),
+      home: const AuthGate(),
     );
+  }
+}
+
+class AuthGate extends StatefulWidget {
+  const AuthGate({super.key});
+
+  @override
+  State<AuthGate> createState() => _AuthGateState();
+}
+
+class _AuthGateState extends State<AuthGate> {
+  final supabase = Supabase.instance.client;
+
+  @override
+  Widget build(BuildContext context) {
+    final session = supabase.auth.currentSession;
+
+    // If logged in → Home
+    if (session != null) {
+      return const HomeScreen();
+    }
+
+    // If not logged in → Welcome
+    return const WelcomeScreen();
   }
 }

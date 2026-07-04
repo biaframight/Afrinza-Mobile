@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../auth/screens/register_screen.dart';
 import '../auth/screens/login_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -49,71 +50,64 @@ class WelcomeScreen extends StatelessWidget {
 
               const Spacer(),
 
+              // CREATE ACCOUNT BUTTON (FIXED)
               SizedBox(
                 width: double.infinity,
                 height: 55,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const RegisterScreen(),
+                      ),
+                    );
+                  },
 
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xff00875A),
                     foregroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(14),
                     ),
                   ),
 
                   child: const Text(
                     "Create Account",
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
+                    style: TextStyle(fontSize: 18),
                   ),
                 ),
               ),
 
               const SizedBox(height: 18),
 
+              // LOGIN BUTTON
               SizedBox(
                 width: double.infinity,
                 height: 55,
                 child: OutlinedButton(
                   onPressed: () {
-
-  Navigator.push(
-
-    context,
-
-    MaterialPageRoute(
-
-      builder: (_) => const LoginScreen(),
-
-    ),
-
-  );
-
-},
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const LoginScreen(),
+                      ),
+                    );
+                  },
 
                   style: OutlinedButton.styleFrom(
-                    foregroundColor:
-                        const Color(0xff00875A),
-
+                    foregroundColor: const Color(0xff00875A),
                     side: const BorderSide(
                       color: Color(0xff00875A),
                     ),
-
                     shape: RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(14),
                     ),
                   ),
 
                   child: const Text(
                     "Login",
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
+                    style: TextStyle(fontSize: 18),
                   ),
                 ),
               ),

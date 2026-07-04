@@ -1,8 +1,8 @@
 import 'dart:async';
-
-import '../welcome/welcome_screen.dart';
 import 'package:flutter/material.dart';
-import '../home/home_screen.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+import '../profile/screens/complete_profile_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -12,67 +12,35 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
- @override
-void initState() {
-  super.initState();
+  final supabase = Supabase.instance.client;
 
-  print("Splash screen started");
+  @override
+  void initState() {
+    super.initState();
 
-  Timer(const Duration(seconds: 3), () {
-    print("Timer finished");
+    Timer(const Duration(seconds: 2), () {
+      final user = supabase.auth.currentUser;
 
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const WelcomeScreen(),
-      ),
-    );
-  });
-}
+      if (user == null) {
+        // not logged in → stay or go login
+        return;
+      }
+
+      // TEMP: assume incomplete → send to profile setup first
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const CompleteProfileScreen(),
+        ),
+      );
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-
+    return const Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-
-            Image.asset(
-              "assets/images/logo.png",
-              width: 150,
-            ),
-
-            const SizedBox(height: 25),
-
-            const Text(
-              "Afrinza",
-              style: TextStyle(
-                fontSize: 34,
-                fontWeight: FontWeight.bold,
-                color: Color(0xff00875A),
-              ),
-            ),
-
-            const SizedBox(height: 10),
-
-            const Text(
-              "Marketplace for Africans Worldwide",
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
-              ),
-            ),
-
-            const SizedBox(height: 50),
-
-            const CircularProgressIndicator(
-              color: Color(0xff00875A),
-            ),
-          ],
-        ),
+        child: CircularProgressIndicator(),
       ),
     );
   }
